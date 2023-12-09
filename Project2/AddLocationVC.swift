@@ -6,14 +6,32 @@
 //
 
 import UIKit
+import CoreLocation
 
-class AddLocationVC: UIViewController {
+protocol NewLocationSaved {
+    func newLocationSaved()
+}
+
+class AddLocationVC: UIViewController, UITextFieldDelegate, CLLocationManagerDelegate {
+    
+    @IBOutlet weak var tfLocation: UITextField!
+    @IBOutlet weak var imgWeatherConition: UIImageView!
+    @IBOutlet weak var lblTemp: UILabel!
+    @IBOutlet weak var lblCityName: UILabel!
+    @IBOutlet weak var imgSearch: UIImageView!
+    
+    var locationManager = CLLocationManager()
+    var lat = ""
+    var long = ""
+    var delegate: NewLocationSaved?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
+        searchButtonActon()
+        textConfig()
+        getCurrentLocation()
     }
-    
     
     private func setupNavigationBar() {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
@@ -29,12 +47,104 @@ class AddLocationVC: UIViewController {
         navigationItem.leftBarButtonItem = cancelButton
     }
     
-    @objc private func saveButtonTapped() {
+    func searchButtonActon() {
+        let searchTapGesture = UITapGestureRecognizer(target: self, action: #selector(searchImgButtonTapped(_:)))
+        imgSearch.isUserInteractionEnabled = true
+        imgSearch.addGestureRecognizer(searchTapGesture)
+    }
+    
+    func textConfig() {
+        tfLocation.delegate = self
+        tfLocation.autocapitalizationType = .words
+    }
+    
+    func getCurrentLocation() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let userLocation :CLLocation = locations[0] as CLLocation
         
+        lat = "\(userLocation.coordinate.latitude)"
+        long = "\(userLocation.coordinate.longitude)"
+                
+        getWeatherData(location: "\(lat), \(long)") { weatherData in
+            if let weatherData = weatherData {
+                self.lblCityName.text = weatherData.location?.name ?? ""
+                self.lblTemp.text = "\(weatherData.current?.temp_c ?? 0.0)"
+                self.imgWeatherConition.getWeatherImage(code: weatherData.current?.condition?.code ?? 0)
+            } else {
+            print("Error Occured")
+            }
+        }
+        
+        locationManager.stopUpdatingLocation()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        getWeatherData(location: tfLocation.text ?? "") { weatherData in
+            if let weatherData = weatherData {
+                self.lblCityName.text = weatherData.location?.name ?? ""
+                self.lblTemp.text = "\(weatherData.current?.temp_c ?? 0.0)"
+                self.imgWeatherConition.getWeatherImage(code: weatherData.current?.condition?.code ?? 0)
+            } else {
+            print("Error Occured")
+            }
+        }
+        
+        tfLocation.text = ""
+        tfLocation.resignFirstResponder()
+        return true
+    }
+    
+    @objc func searchImgButtonTapped(_ sender: UITapGestureRecognizer) {
+        if tfLocation.text?.isEmpty != true {            
+            getWeatherData(location: tfLocation.text ?? "") { weatherData in
+                if let weatherData = weatherData {
+                    self.lblCityName.text = weatherData.location?.name ?? ""
+                    self.lblTemp.text = "\(weatherData.current?.temp_c ?? 0.0)"
+                    self.imgWeatherConition.getWeatherImage(code: weatherData.current?.condition?.code ?? 0)
+                } else {
+                print("Error Occured")
+                }
+            }
+            
+            tfLocation.text = ""
+            tfLocation.resignFirstResponder()
+        } else {
+            tfLocation.shake()
+        }
+    }
+    
+    @objc private func saveButtonTapped() {
+        self.dismiss(animated: true) {
+            self.delegate?.newLocationSaved()
+        }
     }
     
     @objc private func cancelButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
     
+}
+
+// MARK: - Textfield Shake
+extension UITextField {
+    func shake() {
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = 0.07
+        animation.repeatCount = 3
+        animation.autoreverses = true
+        
+        let fromPoint = CGPoint(x: self.center.x - 5, y: self.center.y)
+        let toPoint = CGPoint(x: self.center.x + 5, y: self.center.y)
+        animation.fromValue = NSValue(cgPoint: fromPoint)
+        animation.toValue = NSValue(cgPoint: toPoint)
+        
+        self.layer.add(animation, forKey: "position")
+    }
 }

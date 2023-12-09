@@ -25,6 +25,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         tableConfig()
         getCurrentLocation()
         setupToolbar()
+        getCurrentLocation()
         mapView.delegate = self
     }
     
@@ -51,7 +52,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     @objc func addLocationButtonTapped() {
-        print("Add Toolbar")
+        let vc = UIStoryboard(name: "AddLocation", bundle: nil).instantiateViewController(withIdentifier: "AddLocationVC") as! AddLocationVC
+        vc.delegate = self
+        let vcWithNav = UINavigationController(rootViewController: vc)
+        self.present(vcWithNav, animated: true)
     }
     
     // MARK: Current Location Configuration
@@ -96,9 +100,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                     
                     self.locationsList.append(Location(name: locationName, temperature: 25.0, coordinates: CLLocationCoordinate2D(latitude: userLocation.latitude, longitude: userLocation.latitude)))
 
-                    self.addAnnotation(location: CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude),
-                                       title: "1C",
-                                       subtitle: "-1C (H: 4C, L: -5)")
+                    self.getWeatherData(location: "\(self.lat), \(self.long)") { weatherData in
+                        if let weatherData = weatherData {
+                            print("its calling...")
+                            if let temp = weatherData.current?.temp_c {
+                                self.addAnnotation(location: CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude),
+                                                   title: "\(temp) C",
+                                                   subtitle: "-1C (H: 4C, L: -5)")
+                                
+                            }
+                        } else {
+                        print("Error Occured")
+                        }
+                    }
                 }
             }
             
@@ -129,6 +143,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             view.calloutOffset = CGPoint(x: 0, y: 10)
             
             let button = UIButton(type: .detailDisclosure)
+            button.tag = 1
             view.rightCalloutAccessoryView = button
             
             // This shoudl be current weather condition image
@@ -147,9 +162,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        let vc = UIStoryboard(name: "AddLocation", bundle: nil).instantiateViewController(withIdentifier: "AddLocationVC") as! AddLocationVC
-        let vcWithNav = UINavigationController(rootViewController: vc)
-        self.present(vcWithNav, animated: true)
+        print("this 1 working...")
     }
     
     func pinColorForTemperature(_ temperature: Double) -> UIColor {
@@ -172,7 +185,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
 }
 
-extension ViewController: UITableViewDelegate, UITableViewDataSource {
+extension ViewController: UITableViewDelegate, UITableViewDataSource, NewLocationSaved {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3
@@ -189,6 +202,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Index: \(indexPath.row)")
+    }
+    
+    func newLocationSaved() {
+        print("Save Clicked...")
+        self.listTableView.reloadData()
     }
     
 }

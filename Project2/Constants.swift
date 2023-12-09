@@ -7,10 +7,11 @@
 
 import Foundation
 
-let baseUrl = "http://api.weatherapi.com/v1/current.json?key="
+let baseUrl = "https://api.weatherapi.com/v1/forecast.json"
+let queryPart = "?q="
+let days = "&days=1"
+let ending = "&key="
 let apiKey = "f4eb685e9ecb49e0841183431231811"
-let queryPart = "&q="
-let ending = "&aqi=no"
 
 
 let weatherIcons: [Condition] = [
@@ -18,5 +19,5 @@ let weatherIcons: [Condition] = [
     Condition(text: "cloud", code: 1003),
     Condition(text: "cloud.fog", code: 1006),
     Condition(text: "cloud.snow", code: 1219),
-    Condition(text: "cloud.heavyrain", code: 1195)
+    Condition(text: "cloud.heavyrain", code: 1030)
 ]
