@@ -8,6 +8,12 @@
 import UIKit
 
 class LocationListViewCell: UITableViewCell {
+    
+    @IBOutlet weak var weatherIcon: UIImageView!
+    @IBOutlet weak var lblLocationName: UILabel!
+    @IBOutlet weak var lblDescription: UILabel!
+    
+    static let identifier = "LocationListViewCell"
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -18,6 +24,10 @@ class LocationListViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    static func nib() -> UINib {
+        return UINib(nibName: identifier, bundle: nil)
     }
     
 }

@@ -1,24 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BZp-h4-iRL">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
+        <capability name="Map view configurations" minToolsVersion="14.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Project2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qfc-M9-Q2M">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="437"/>
+                                <standardMapConfiguration key="preferredConfiguration"/>
+                            </mapView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f09-ks-8NU" userLabel="ListView">
+                                <rect key="frame" x="0.0" y="477.33333333333326" width="393" height="340.66666666666674"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ze0-CN-mxi" userLabel="HandleBarView">
+                                        <rect key="frame" x="171.66666666666666" y="12" width="50" height="6"/>
+                                        <color key="backgroundColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="0.80017006802721091" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="Czz-wV-DNL"/>
+                                            <constraint firstAttribute="height" constant="6" id="HLK-m9-7ci"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <integer key="value" value="3"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="DU5-Ji-Er6">
+                                        <rect key="frame" x="0.0" y="26" width="393" height="314.66666666666669"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </tableView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="Ze0-CN-mxi" firstAttribute="centerX" secondItem="f09-ks-8NU" secondAttribute="centerX" id="0AH-ha-fYW"/>
+                                    <constraint firstItem="Ze0-CN-mxi" firstAttribute="top" secondItem="f09-ks-8NU" secondAttribute="top" constant="12" id="41w-VB-QMV"/>
+                                    <constraint firstItem="DU5-Ji-Er6" firstAttribute="top" secondItem="Ze0-CN-mxi" secondAttribute="bottom" constant="8" id="8xe-2D-rpe"/>
+                                    <constraint firstItem="DU5-Ji-Er6" firstAttribute="leading" secondItem="f09-ks-8NU" secondAttribute="leading" id="Dab-fy-bE0"/>
+                                    <constraint firstAttribute="trailing" secondItem="DU5-Ji-Er6" secondAttribute="trailing" id="aTE-Uc-K33"/>
+                                    <constraint firstAttribute="bottom" secondItem="DU5-Ji-Er6" secondAttribute="bottom" id="fk6-ew-R0s"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="f09-ks-8NU" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.4" id="7ds-Bh-xw7"/>
+                            <constraint firstItem="qfc-M9-Q2M" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.513" id="P20-WH-cv9"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="f09-ks-8NU" secondAttribute="bottom" id="VuU-C5-VVY"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="f09-ks-8NU" secondAttribute="trailing" id="Zsd-P0-f7p"/>
+                            <constraint firstItem="qfc-M9-Q2M" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="hOR-wr-P96"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qfc-M9-Q2M" secondAttribute="trailing" id="pBt-07-DAT"/>
+                            <constraint firstItem="qfc-M9-Q2M" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="uyM-Oe-pLy"/>
+                            <constraint firstItem="f09-ks-8NU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="wFS-WU-hfY"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="5Nl-NF-LXZ"/>
+                    <connections>
+                        <outlet property="listTableView" destination="DU5-Ji-Er6" id="6uS-v2-2HX"/>
+                        <outlet property="mapView" destination="qfc-M9-Q2M" id="Lbv-yZ-2eB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1006.8702290076335" y="3.5211267605633805"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="789-cz-GkV">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="BZp-h4-iRL" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="aLv-sM-cvv">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="xms-ik-ABH"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tsd-W5-Uwm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="139.69465648854961" y="3.5211267605633805"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

@@ -13,6 +13,11 @@
 		3806C58F2B23682B00230962 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3806C58D2B23682B00230962 /* Main.storyboard */; };
 		3806C5912B23682C00230962 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3806C5902B23682C00230962 /* Assets.xcassets */; };
 		3806C5942B23682C00230962 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3806C5922B23682C00230962 /* LaunchScreen.storyboard */; };
+		3806C59F2B23AE7700230962 /* LocationListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3806C59D2B23AE7700230962 /* LocationListViewCell.swift */; };
+		3806C5A02B23AE7700230962 /* LocationListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3806C59E2B23AE7700230962 /* LocationListViewCell.xib */; };
+		3806C5A22B23C98800230962 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3806C5A12B23C98800230962 /* Model.swift */; };
+		3806C5A42B23E4FB00230962 /* AddLocation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3806C5A32B23E4FB00230962 /* AddLocation.storyboard */; };
+		3806C5A62B23E50F00230962 /* AddLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3806C5A52B23E50F00230962 /* AddLocationVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +29,11 @@
 		3806C5902B23682C00230962 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3806C5932B23682C00230962 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3806C5952B23682C00230962 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3806C59D2B23AE7700230962 /* LocationListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationListViewCell.swift; sourceTree = "<group>"; };
+		3806C59E2B23AE7700230962 /* LocationListViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LocationListViewCell.xib; sourceTree = "<group>"; };
+		3806C5A12B23C98800230962 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		3806C5A32B23E4FB00230962 /* AddLocation.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddLocation.storyboard; sourceTree = "<group>"; };
+		3806C5A52B23E50F00230962 /* AddLocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +69,12 @@
 				3806C5872B23682B00230962 /* AppDelegate.swift */,
 				3806C5892B23682B00230962 /* SceneDelegate.swift */,
 				3806C58B2B23682B00230962 /* ViewController.swift */,
+				3806C5A12B23C98800230962 /* Model.swift */,
 				3806C58D2B23682B00230962 /* Main.storyboard */,
+				3806C5A32B23E4FB00230962 /* AddLocation.storyboard */,
+				3806C5A52B23E50F00230962 /* AddLocationVC.swift */,
+				3806C59D2B23AE7700230962 /* LocationListViewCell.swift */,
+				3806C59E2B23AE7700230962 /* LocationListViewCell.xib */,
 				3806C5902B23682C00230962 /* Assets.xcassets */,
 				3806C5922B23682C00230962 /* LaunchScreen.storyboard */,
 				3806C5952B23682C00230962 /* Info.plist */,
@@ -126,8 +141,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				3806C5942B23682C00230962 /* LaunchScreen.storyboard in Resources */,
+				3806C5A02B23AE7700230962 /* LocationListViewCell.xib in Resources */,
 				3806C5912B23682C00230962 /* Assets.xcassets in Resources */,
 				3806C58F2B23682B00230962 /* Main.storyboard in Resources */,
+				3806C5A42B23E4FB00230962 /* AddLocation.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,7 +155,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3806C5A22B23C98800230962 /* Model.swift in Sources */,
 				3806C58C2B23682B00230962 /* ViewController.swift in Sources */,
+				3806C59F2B23AE7700230962 /* LocationListViewCell.swift in Sources */,
+				3806C5A62B23E50F00230962 /* AddLocationVC.swift in Sources */,
 				3806C5882B23682B00230962 /* AppDelegate.swift in Sources */,
 				3806C58A2B23682B00230962 /* SceneDelegate.swift in Sources */,
 			);
@@ -292,6 +312,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4JN2ZQTN8B;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Project2/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -319,6 +340,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4JN2ZQTN8B;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Project2/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

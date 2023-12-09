@@ -6,3 +6,10 @@
 //
 
 import Foundation
+import MapKit
+
+struct Location {
+    var name: String
+    var temperature: Double
+    var coordinates: CLLocationCoordinate2D
+}
