@@ -26,7 +26,7 @@ struct WeatherResponseModel: Decodable {
 struct LocationName: Decodable {
     let name: String?
     let lat: Double?
-    let long: Double?
+    let lon: Double?
 }
 
 struct Current: Decodable {

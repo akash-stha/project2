@@ -128,7 +128,7 @@ class AddLocationVC: UIViewController, UITextFieldDelegate, CLLocationManagerDel
     @objc private func saveButtonTapped() {
         self.dismiss(animated: true) {
             if let data = self.savedWeatherData {
-                self.delegate?.newLocationSaved(weatherData: data)               
+                self.delegate?.newLocationSaved(weatherData: data)
             }
         }
     }

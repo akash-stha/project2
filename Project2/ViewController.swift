@@ -71,7 +71,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let userLocation :CLLocation = locations[0] as CLLocation
+        let userLocation: CLLocation = locations[0] as CLLocation
         
         lat = "\(userLocation.coordinate.latitude)"
         long = "\(userLocation.coordinate.longitude)"
@@ -81,8 +81,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         }
         
         if !isLocationFetched {
-            let region = MKCoordinateRegion(center: userLocation, latitudinalMeters: 200, longitudinalMeters: 200)
-            mapView.setRegion(region, animated: true)
+            setMapRegion(lat: userLocation.latitude, long: userLocation.longitude)
             
             lat = "\(userLocation.latitude)"
             long = "\(userLocation.longitude)"
@@ -107,9 +106,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                             if let temp = weatherData.current?.temp_c {
                                 self.addAnnotation(location: CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude),
                                                    title: "\(temp) C",
-                                                   subtitle: "-1C (H: 4C, L: -5)")
+                                                   subtitle: "")
                                 
-                                self.locationsList.append(Location(name: locationName, temperature: Double(temp), max: weatherData.forecast?.forecastday.first?.day.maxtemp_c ?? 0.0, min: weatherData.forecast?.forecastday.first?.day.mintemp_c ?? 0.0, code: weatherData.current?.condition?.code ?? 0, coordinates: CLLocationCoordinate2D(latitude: userLocation.latitude, longitude: userLocation.latitude)))
+                                self.locationsList.append(Location(name: locationName, temperature: Double(temp), max: weatherData.forecast?.forecastday.first?.day.maxtemp_c ?? 0.0, min: weatherData.forecast?.forecastday.first?.day.mintemp_c ?? 0.0, code: weatherData.current?.condition?.code ?? 0, coordinates: CLLocationCoordinate2D(latitude: userLocation.latitude, longitude: userLocation.longitude)))
                                 self.listTableView.reloadData()
                             }
                         } else {
@@ -150,9 +149,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             button.tag = 1
             view.rightCalloutAccessoryView = button
             
-            // This shoudl be current weather condition image
+//            This shoudl be current weather condition image
             let icon = UIImage(systemName: "graduationcap.circle.fill")
             view.leftCalloutAccessoryView = UIImageView(image: icon)
+            
+//            let weatherImageView = UIImageView()
+//            weatherImageView.getWeatherImage(code: weatherDetails?.current?.condition?.code ?? 0)
+//            view.leftCalloutAccessoryView = weatherImageView
             
             view.markerTintColor = pinColorForTemperature(Double(tempInCelcius ?? 0.0))
             view.tintColor = .systemRed
@@ -216,12 +219,26 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource, NewLocatio
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Index: \(indexPath.row)")
+        let model = locationsList[indexPath.item]
+        self.addAnnotation(location: CLLocation(latitude: model.coordinates.latitude, longitude: model.coordinates.longitude),
+                           title: "\(model.temperature) C",
+                           subtitle: "")
+        setMapRegion(lat: model.coordinates.latitude, long: model.coordinates.longitude)
     }
     
     func newLocationSaved(weatherData: WeatherResponseModel) {
-        self.locationsList.append(Location(name: weatherData.location?.name ?? "", temperature: Double(weatherData.current?.temp_c ?? 0.0), max: weatherData.forecast?.forecastday.first?.day.maxtemp_c ?? 0.0, min: weatherData.forecast?.forecastday.first?.day.mintemp_c ?? 0.0, code: weatherData.current?.condition?.code ?? 0, coordinates: CLLocationCoordinate2D(latitude: weatherData.location?.lat ?? 0.0, longitude: weatherData.location?.long ?? 0.0)))
+        self.weatherDetails = weatherData
+        self.setMapRegion(lat: weatherData.location?.lat ?? 0.0, long: weatherData.location?.lon ?? 0.0)
+        self.addAnnotation(location: CLLocation(latitude: weatherData.location?.lat ?? 0.0, longitude: weatherData.location?.lon ?? 0.0),
+                           title: "\(weatherData.current?.temp_c ?? 0.0) C",
+                           subtitle: "")
+        self.locationsList.append(Location(name: weatherData.location?.name ?? "", temperature: Double(weatherData.current?.temp_c ?? 0.0), max: weatherData.forecast?.forecastday.first?.day.maxtemp_c ?? 0.0, min: weatherData.forecast?.forecastday.first?.day.mintemp_c ?? 0.0, code: weatherData.current?.condition?.code ?? 0, coordinates: CLLocationCoordinate2D(latitude: weatherData.location?.lat ?? 0.0, longitude: weatherData.location?.lon ?? 0.0)))
         self.listTableView.reloadData()
+    }
+    
+    func setMapRegion(lat: CLLocationDegrees, long: CLLocationDegrees) {
+        let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: lat, longitude: long), latitudinalMeters: 200, longitudinalMeters: 200)
+        mapView.setRegion(region, animated: true)
     }
     
 }
