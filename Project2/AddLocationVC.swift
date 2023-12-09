@@ -9,7 +9,7 @@ import UIKit
 import CoreLocation
 
 protocol NewLocationSaved {
-    func newLocationSaved()
+    func newLocationSaved(weatherData: WeatherResponseModel)
 }
 
 class AddLocationVC: UIViewController, UITextFieldDelegate, CLLocationManagerDelegate {
@@ -24,6 +24,7 @@ class AddLocationVC: UIViewController, UITextFieldDelegate, CLLocationManagerDel
     var lat = ""
     var long = ""
     var delegate: NewLocationSaved?
+    var savedWeatherData: WeatherResponseModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,6 +92,8 @@ class AddLocationVC: UIViewController, UITextFieldDelegate, CLLocationManagerDel
                 self.lblCityName.text = weatherData.location?.name ?? ""
                 self.lblTemp.text = "\(weatherData.current?.temp_c ?? 0.0)"
                 self.imgWeatherConition.getWeatherImage(code: weatherData.current?.condition?.code ?? 0)
+                
+                self.savedWeatherData = weatherData
             } else {
             print("Error Occured")
             }
@@ -108,6 +111,8 @@ class AddLocationVC: UIViewController, UITextFieldDelegate, CLLocationManagerDel
                     self.lblCityName.text = weatherData.location?.name ?? ""
                     self.lblTemp.text = "\(weatherData.current?.temp_c ?? 0.0)"
                     self.imgWeatherConition.getWeatherImage(code: weatherData.current?.condition?.code ?? 0)
+                    
+                    self.savedWeatherData = weatherData
                 } else {
                 print("Error Occured")
                 }
@@ -122,7 +127,9 @@ class AddLocationVC: UIViewController, UITextFieldDelegate, CLLocationManagerDel
     
     @objc private func saveButtonTapped() {
         self.dismiss(animated: true) {
-            self.delegate?.newLocationSaved()
+            if let data = self.savedWeatherData {
+                self.delegate?.newLocationSaved(weatherData: data)               
+            }
         }
     }
     

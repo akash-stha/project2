@@ -41,15 +41,25 @@
                                         <rect key="frame" x="0.0" y="26" width="393" height="314.66666666666669"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </tableView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No saved locations" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M6t-rt-Vdc">
+                                        <rect key="frame" x="0.0" y="18" width="393" height="322.66666666666669"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="Ze0-CN-mxi" firstAttribute="centerX" secondItem="f09-ks-8NU" secondAttribute="centerX" id="0AH-ha-fYW"/>
                                     <constraint firstItem="Ze0-CN-mxi" firstAttribute="top" secondItem="f09-ks-8NU" secondAttribute="top" constant="12" id="41w-VB-QMV"/>
+                                    <constraint firstAttribute="trailing" secondItem="M6t-rt-Vdc" secondAttribute="trailing" id="4Ih-ZJ-Hu6"/>
                                     <constraint firstItem="DU5-Ji-Er6" firstAttribute="top" secondItem="Ze0-CN-mxi" secondAttribute="bottom" constant="8" id="8xe-2D-rpe"/>
                                     <constraint firstItem="DU5-Ji-Er6" firstAttribute="leading" secondItem="f09-ks-8NU" secondAttribute="leading" id="Dab-fy-bE0"/>
+                                    <constraint firstAttribute="bottom" secondItem="M6t-rt-Vdc" secondAttribute="bottom" id="FMs-xn-SGe"/>
+                                    <constraint firstItem="M6t-rt-Vdc" firstAttribute="top" secondItem="Ze0-CN-mxi" secondAttribute="bottom" id="SN2-Rp-krF"/>
                                     <constraint firstAttribute="trailing" secondItem="DU5-Ji-Er6" secondAttribute="trailing" id="aTE-Uc-K33"/>
                                     <constraint firstAttribute="bottom" secondItem="DU5-Ji-Er6" secondAttribute="bottom" id="fk6-ew-R0s"/>
+                                    <constraint firstItem="M6t-rt-Vdc" firstAttribute="leading" secondItem="f09-ks-8NU" secondAttribute="leading" id="tcc-V3-gqZ"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -73,6 +83,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="5Nl-NF-LXZ"/>
                     <connections>
+                        <outlet property="lblSavedLocationMsg" destination="M6t-rt-Vdc" id="ed0-dM-LhJ"/>
                         <outlet property="listTableView" destination="DU5-Ji-Er6" id="6uS-v2-2HX"/>
                         <outlet property="mapView" destination="qfc-M9-Q2M" id="Lbv-yZ-2eB"/>
                     </connections>

@@ -13,12 +13,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var listTableView: UITableView!
+    @IBOutlet weak var lblSavedLocationMsg: UILabel!
     
     var locationManager = CLLocationManager()
     var lat = ""
     var long = ""
     var isLocationFetched = false
-    var locationsList: [Location] = []
+    var locationsList = [Location]()
     var tempInCelcius: Float?
     var weatherDetails: WeatherResponseModel?
     
@@ -88,23 +89,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             
             let geocoder = CLGeocoder()
             let location = CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude)
-
+            
             geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
                 if let error = error {
                     print("Reverse geocoding error: \(error.localizedDescription)")
                     return
                 }
-
+                
                 if let placemark = placemarks?.first {
                     // MARK: Accessing the location name from the placemark
                     let locationName = placemark.name ?? ""
                     print("Location Name: \(locationName)")
-                    
-                    self.locationsList.append(Location(name: locationName, temperature: 25.0, coordinates: CLLocationCoordinate2D(latitude: userLocation.latitude, longitude: userLocation.latitude)))
-
                     self.getWeatherData(location: "\(self.lat), \(self.long)") { weatherData in
                         if let weatherData = weatherData {
-                            print("its calling...")
                             self.weatherDetails = weatherData
                             self.tempInCelcius = weatherData.current?.temp_c
                             if let temp = weatherData.current?.temp_c {
@@ -112,9 +109,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                                                    title: "\(temp) C",
                                                    subtitle: "-1C (H: 4C, L: -5)")
                                 
+                                self.locationsList.append(Location(name: locationName, temperature: Double(temp), max: weatherData.forecast?.forecastday.first?.day.maxtemp_c ?? 0.0, min: weatherData.forecast?.forecastday.first?.day.mintemp_c ?? 0.0, code: weatherData.current?.condition?.code ?? 0, coordinates: CLLocationCoordinate2D(latitude: userLocation.latitude, longitude: userLocation.latitude)))
+                                self.listTableView.reloadData()
                             }
                         } else {
-                        print("Error Occured")
+                            print("Error Occured")
                         }
                     }
                 }
@@ -122,6 +121,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             
             isLocationFetched = true
             locationManager.stopUpdatingLocation()
+            
         }
         
         print(lat)
@@ -194,14 +194,23 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
 extension ViewController: UITableViewDelegate, UITableViewDataSource, NewLocationSaved {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        
+        if locationsList.count != 0 {
+            lblSavedLocationMsg.isHidden = true
+        } else {
+            lblSavedLocationMsg.isHidden = false
+        }
+        
+        return locationsList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = listTableView.dequeueReusableCell(withIdentifier: LocationListViewCell.identifier, for: indexPath) as! LocationListViewCell
         cell.selectionStyle = .none
-        cell.lblLocationName.text = "Location \(indexPath.item + 1)"
-        cell.lblDescription.text = "Description \(indexPath.item + 1)"
+        let model = locationsList[indexPath.item]
+        cell.lblLocationName.text = model.name
+        cell.weatherIcon.getWeatherImage(code: model.code)
+        cell.lblDescription.text = "\(model.temperature)C (H: \(model.max) L: \(model.min))"
         return cell
     }
     
@@ -210,8 +219,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource, NewLocatio
         print("Index: \(indexPath.row)")
     }
     
-    func newLocationSaved() {
-        print("Save Clicked...")
+    func newLocationSaved(weatherData: WeatherResponseModel) {
+        self.locationsList.append(Location(name: weatherData.location?.name ?? "", temperature: Double(weatherData.current?.temp_c ?? 0.0), max: weatherData.forecast?.forecastday.first?.day.maxtemp_c ?? 0.0, min: weatherData.forecast?.forecastday.first?.day.mintemp_c ?? 0.0, code: weatherData.current?.condition?.code ?? 0, coordinates: CLLocationCoordinate2D(latitude: weatherData.location?.lat ?? 0.0, longitude: weatherData.location?.long ?? 0.0)))
         self.listTableView.reloadData()
     }
     
