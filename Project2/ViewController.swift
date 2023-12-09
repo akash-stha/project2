@@ -19,6 +19,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     var long = ""
     var isLocationFetched = false
     var locationsList: [Location] = []
+    var tempInCelcius: Float?
+    var weatherDetails: WeatherResponseModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,6 +105,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                     self.getWeatherData(location: "\(self.lat), \(self.long)") { weatherData in
                         if let weatherData = weatherData {
                             print("its calling...")
+                            self.weatherDetails = weatherData
+                            self.tempInCelcius = weatherData.current?.temp_c
                             if let temp = weatherData.current?.temp_c {
                                 self.addAnnotation(location: CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude),
                                                    title: "\(temp) C",
@@ -150,7 +154,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             let icon = UIImage(systemName: "graduationcap.circle.fill")
             view.leftCalloutAccessoryView = UIImageView(image: icon)
             
-            view.markerTintColor = pinColorForTemperature(25.0)
+            view.markerTintColor = pinColorForTemperature(Double(tempInCelcius ?? 0.0))
             view.tintColor = .systemRed
             
 //            if let myAnnotation = annotation as? MyAnnotation {
@@ -162,7 +166,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        print("this 1 working...")
+        let vc = UIStoryboard(name: "WeatherDetails", bundle: nil).instantiateViewController(withIdentifier: "WeatherDetailsVC") as! WeatherDetailsVC
+        vc.getWeatherDetails = weatherDetails
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func pinColorForTemperature(_ temperature: Double) -> UIColor {

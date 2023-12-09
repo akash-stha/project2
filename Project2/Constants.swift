@@ -9,7 +9,7 @@ import Foundation
 
 let baseUrl = "https://api.weatherapi.com/v1/forecast.json"
 let queryPart = "?q="
-let days = "&days=1"
+let days = "&days=7"
 let ending = "&key="
 let apiKey = "f4eb685e9ecb49e0841183431231811"
 
